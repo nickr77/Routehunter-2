@@ -2,6 +2,7 @@ const hapi = require('@hapi/hapi');
 const app = express();
 const axios = require('axios');
 const mysql = require('mysql');
+let routes = require('./routes')
 
 
 //Credential and Environment VarSetup
@@ -12,7 +13,8 @@ const creds = {
     user: process.env.RHUSER,
     password: process.env.RHPW,
     name: process.env.DBNAME,
-    port: process.env.PORT
+    port: process.env.PORT,
+    dbport: process.env.DBPORT
 }
 
 //Initialize the connection with the database
@@ -39,12 +41,6 @@ const init = async() => {
         host: creds.host
     });
 
-    server.route({
-        method: 'POST',
-        path: '/getAirports',
-        handler: (request, h) => {
-
-        }
-    })
+    server.route(routes)
 
 }

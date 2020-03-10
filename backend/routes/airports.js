@@ -18,7 +18,23 @@ module.exports = [
         }
 
 
+    },
+    {
+        method: 'GET',
+        path: '/getairport/:code',
+        handler: function(request,h) {
+            const payload = request.payload;
+
+            let query = "CALL get_airports(?,?,?,?)"
+
+            db.query(query,[startLat, startLong, rangeKM, minRunway], function(err, rows, fields) {
+
+            });
+        }
+
+
     }
+
 
 
 ]
