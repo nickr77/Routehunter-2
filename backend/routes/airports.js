@@ -12,8 +12,12 @@ module.exports = [
 
             let query = "CALL get_airports(?,?,?,?)"
 
-            db.query(query,[startLat, startLong, rangeKM, minRunway], function(err, rows, fields) {
-
+            db.query(query,[startLat, startLong, rangeKM, minRunway], function(err, rows) {
+                if (err) {
+                    console.log("Error connecting to DB");
+                    throw err;
+                }
+                console.log("Result:" + rows);
             });
         }
 
@@ -21,13 +25,17 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/getairport/:code',
+        path: '/getairport/{code}',
         handler: function(request,h) {
-            const payload = request.payload;
 
-            let query = "CALL get_airports(?,?,?,?)"
+            let query = "CALL get_airport(?)"
 
-            db.query(query,[startLat, startLong, rangeKM, minRunway], function(err, rows, fields) {
+            db.query(query,[request.params.code], function(err, rows) {
+                if (err) {
+                    console.log("Error connecting to DB");
+                    throw err;
+                }
+                console.log("Result:" + rows);
 
             });
         }
