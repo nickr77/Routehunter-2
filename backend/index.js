@@ -1,5 +1,4 @@
 const hapi = require('@hapi/hapi');
-const app = express();
 const axios = require('axios');
 const mysql = require('mysql');
 let routes = require('./routes')
