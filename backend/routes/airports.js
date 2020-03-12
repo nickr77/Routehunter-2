@@ -26,23 +26,26 @@ module.exports = [
     {
         method: 'GET',
         path: '/getairport/{code}',
-        handler: function(request,h) {
+        handler: async function(request,h) {
 
-            let query = "CALL get_airport(?)"
+            let query = "CALL get_airport(?)";
 
-            db.query(query,[request.params.code], function(err, rows) {
-                if (err) {
-                    console.log("Error connecting to DB");
-                    throw err;
-                }
-                console.log("Result:" + rows);
+            console.log("getairport called");
+            return new Promise(function(resolve, reject) {
+                db.query(query,[request.params.code], function(err, rows) {
+                    if (err) {
+                        console.log("Error connecting to DB");
+                        reject(err);
+                    }
+                    else {
+                        resolve(JSON.parse(JSON.stringify(rows[0])))
+                    }
+            })
+        })
 
-            });
+
+
         }
 
-
     }
-
-
-
 ]

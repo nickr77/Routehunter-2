@@ -1,5 +1,4 @@
 const hapi = require('@hapi/hapi');
-const axios = require('axios');
 const mysql = require('mysql');
 let routes = require('./routes')
 
@@ -35,11 +34,21 @@ db.connect((error) => {
 
 const init = async() => {
 
-    const server = Hapi.server({
+    console.log("Creating Server")
+    const server = hapi.server({
         port: creds.port,
         host: creds.host
     });
 
-    server.route(routes)
+    await server.start();
+    console.log("Server running on %s", server.info.uri);
+    server.route(routes);
 
 }
+process.on('unhandledRejection', (err) => {
+
+    console.log(err);
+    process.exit(1);
+});
+
+init();
